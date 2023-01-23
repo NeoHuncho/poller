@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        "landing-pattern": "url('~/src/assets/images/landing-pattern.jpg')",
+        "landing-pattern": "url('~/src/assets/images/landing-pattern.jpeg')",
       },
     },
   },
