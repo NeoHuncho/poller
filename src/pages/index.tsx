@@ -1,27 +1,10 @@
-import { type NextPage } from "next";
-import Head from "next/head";
+import { Landing } from "../components/landing/Landing";
 
-import { api } from "../utils/api";
-import TitleSection from "../components/landing/TitleSection";
-import SurveyCreationCard from "../components/landing/PollCreationCard";
 
-const Home: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
+const Home = () => {
 
   return (
-    <>
-      <Head>
-        <title>Poller</title>
-        <meta name="description" content="Create polls for free" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-landing-pattern bg-cover bg-fixed bg-center bg-no-repeat ">
-        <div className="container flex flex-col items-center justify-center gap-4">
-          <TitleSection />
-          <SurveyCreationCard />
-        </div>
-      </main>
-    </>
+    <Landing/>
   );
 };
 

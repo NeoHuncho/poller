@@ -1,16 +1,21 @@
 import { Button, Card, TextInput } from "@mantine/core";
 import React from "react";
+import { CreateIcon, SettingsIcon } from "../../assets/icons/icons";
 import usePollCreation from "../../hooks/usePollCreation";
+
 import AnswerField from "../answserField/AnswerField";
 
 export default function PollCreationCard() {
   const {
     poll,
     updatePollAnswer,
-    updatePollTitle,
+    updatePollQuestion,
     addPollAnswer,
     deleteAnswer,
+    createPoll
   } = usePollCreation();
+
+ 
   return (
     <Card
       color="primary"
@@ -23,8 +28,8 @@ export default function PollCreationCard() {
       <div className="flex flex-col items-center gap-10">
         <div className="flex w-full flex-col gap-5">
           <TextInput
-            value={poll.title}
-            onChange={(e) => updatePollTitle(e.target.value)}
+            value={poll.question}
+            onChange={(e) => updatePollQuestion(e.target.value)}
             size="lg"
             placeholder="Type your question here"
           />
@@ -32,7 +37,7 @@ export default function PollCreationCard() {
             {poll.answers.map((answer, index) => (
               <AnswerField
                 key={index}
-                value={answer}
+                value={answer.label}
                 onChange={(e) => updatePollAnswer(index, e.target.value)}
                 onDelete={() => deleteAnswer(index)}
                 
@@ -43,9 +48,14 @@ export default function PollCreationCard() {
             </Button>
           </div>
         </div>
-        <Button color="primary" size="md" className="w-2/4">
-          Create Poll
+        <div className="flex gap-3 w-full">
+        <Button rightIcon={<SettingsIcon  size={25}/>} variant="outline" color="primary" size="md" className="w-full">
+          Settings
         </Button>
+        <Button rightIcon={<CreateIcon  size={25}/>}  onClick={createPoll}  color="primary" size="md" className="w-full">
+          Create 
+        </Button>
+        </div>
       </div>
     </Card>
   );

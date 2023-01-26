@@ -1,26 +1,32 @@
+import { useRouter } from "next/router";
 import { useState } from "react";
-import type { Poll } from "../types/types";
+import { api } from "../utils/api";
+
+
 
 export default function usePollCreation() {
-  const [poll, setPoll] = useState<Poll>({
-    title: "",
-    answers: ["", "", "", ""],
+  const mutation=   api.polls.createPoll.useMutation()
+  const router = useRouter();
+
+
+  const [poll, setPoll] = useState({
+    question: "",
+    answers: [{ label: "", voteCounter: 0 }, { label: "", voteCounter: 0 }, { label: "", voteCounter: 0 }],
   });
   
-
-  const updatePollTitle = (title: string) => {
-    setPoll({ ...poll, title });
+  const updatePollQuestion = (question: string) => {
+    setPoll({ ...poll, question });
   };
 
-  const updatePollAnswer = (index: number, answer: string) => {
+  const updatePollAnswer = (index: number, label: string) => {
     const answers = [...poll.answers];
-    answers[index] = answer;
+    answers[index] = { label: label, voteCounter: 0 };
     setPoll({ ...poll, answers });
   };
 
   const addPollAnswer = () => {
     const answers = [...poll.answers];
-    answers.push("");
+    answers.push({ label: "", voteCounter: 0 });
     setPoll({ ...poll, answers });
   };
 
@@ -30,11 +36,15 @@ export default function usePollCreation() {
     setPoll({ ...poll, answers });
   };
 
+  const createPoll =  () => 
+   mutation.mutateAsync(poll).then((res) =>  router.push(`/poll/vote?pollID=${res.id}`)).catch((err) => console.log(err));
+
   return {
     poll,
-    updatePollTitle,
+    updatePollQuestion,
     updatePollAnswer,
     addPollAnswer,
     deleteAnswer,
+    createPoll,
   };
 }

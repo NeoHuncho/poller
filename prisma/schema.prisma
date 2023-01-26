@@ -14,11 +14,24 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+
+model Poll {
+    id  String   @id @default(cuid())
+    question String
+    answers PollAnswer[]
+    //add a not required user id that is a foreign key to the user model
+    userId String?
+    user User? @relation(fields: [userId], references: [id])
 }
+
+model PollAnswer {
+    id  String   @id @default(cuid())
+    pollId String
+    poll Poll @relation(fields: [pollId], references: [id], onDelete: Cascade)
+    label String
+    voteCounter Int
+}
+
 
 // Necessary for Next auth
 model Account {
@@ -55,6 +68,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    polls         Poll[]
 }
 
 model VerificationToken {
