@@ -2,18 +2,19 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { api } from "../utils/api";
 
-
-
 export default function usePollCreation() {
-  const mutation=   api.polls.createPoll.useMutation()
+  const mutation = api.polls.createPoll.useMutation();
   const router = useRouter();
-
 
   const [poll, setPoll] = useState({
     question: "",
-    answers: [{ label: "", voteCounter: 0 }, { label: "", voteCounter: 0 }, { label: "", voteCounter: 0 }],
+    answers: [
+      { label: "", voteCounter: 0 },
+      { label: "", voteCounter: 0 },
+      { label: "", voteCounter: 0 },
+    ],
   });
-  
+
   const updatePollQuestion = (question: string) => {
     setPoll({ ...poll, question });
   };
@@ -36,8 +37,11 @@ export default function usePollCreation() {
     setPoll({ ...poll, answers });
   };
 
-  const createPoll =  () => 
-   mutation.mutateAsync(poll).then((res) =>  router.push(`/poll/vote?pollID=${res.id}`)).catch((err) => console.log(err));
+  const createPoll = () =>
+    mutation
+      .mutateAsync(poll)
+      .then((res) => router.push(`/poll/Vote?pollID=${res.id}`))
+      .catch((err) => console.log(err));
 
   return {
     poll,

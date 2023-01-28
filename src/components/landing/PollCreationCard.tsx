@@ -12,10 +12,19 @@ export default function PollCreationCard() {
     updatePollQuestion,
     addPollAnswer,
     deleteAnswer,
-    createPoll
+    createPoll,
   } = usePollCreation();
 
- 
+  const onCreatePoll = () => {
+    console.log("Create poll");
+    createPoll()
+      .then(() => {
+        console.log("Poll created");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <Card
       color="primary"
@@ -40,7 +49,6 @@ export default function PollCreationCard() {
                 value={answer.label}
                 onChange={(e) => updatePollAnswer(index, e.target.value)}
                 onDelete={() => deleteAnswer(index)}
-                
               />
             ))}
             <Button size="sm" color="secondary" onClick={addPollAnswer}>
@@ -48,13 +56,25 @@ export default function PollCreationCard() {
             </Button>
           </div>
         </div>
-        <div className="flex gap-3 w-full">
-        <Button rightIcon={<SettingsIcon  size={25}/>} variant="outline" color="primary" size="md" className="w-full">
-          Settings
-        </Button>
-        <Button rightIcon={<CreateIcon  size={25}/>}  onClick={createPoll}  color="primary" size="md" className="w-full">
-          Create 
-        </Button>
+        <div className="flex w-full gap-3">
+          <Button
+            rightIcon={<SettingsIcon size={25} />}
+            variant="outline"
+            color="primary"
+            size="md"
+            className="w-full"
+          >
+            Settings
+          </Button>
+          <Button
+            rightIcon={<CreateIcon size={25} />}
+            onClick={onCreatePoll}
+            color="primary"
+            size="md"
+            className="w-full"
+          >
+            Create
+          </Button>
         </div>
       </div>
     </Card>
