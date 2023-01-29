@@ -14,6 +14,7 @@ export default function usePollCreation() {
       { label: "", voteCounter: 0 },
     ],
   });
+  const [showSettings, setShowSettings] = useState(false);
 
   const updatePollQuestion = (question: string) => {
     setPoll({ ...poll, question });
@@ -40,7 +41,7 @@ export default function usePollCreation() {
   const createPoll = () =>
     mutation
       .mutateAsync(poll)
-      .then((res) => router.push(`/poll/Vote?pollID=${res.id}`))
+      .then((res) => router.push(`/poll/Results?pollID=${res.id}`))
       .catch((err) => console.log(err));
 
   return {
@@ -50,5 +51,7 @@ export default function usePollCreation() {
     addPollAnswer,
     deleteAnswer,
     createPoll,
+    showSettings,
+    setShowSettings,
   };
 }

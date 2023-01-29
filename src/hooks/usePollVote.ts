@@ -33,12 +33,11 @@ const usePollVote = () => {
   };
 
   const submitVotes = () => {
-    console.log(votes);
     mutation
       .mutateAsync({
         votes,
       })
-      .then((res) => console.log(res))
+      .then(() => router.push(`/poll/Results?pollID=${pollID}`))
       .catch((err) => console.log(err));
   };
   return { pollData, answersData, addVote, submitVotes };
