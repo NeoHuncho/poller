@@ -12,6 +12,7 @@ const usePollVote = () => {
   const mutation = api.polls.addVotes.useMutation();
 
   const [votes, setVotes] = useState<{ answerID: string; vote: boolean }[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (answersData && !votes.length) {
@@ -33,13 +34,14 @@ const usePollVote = () => {
   };
 
   const submitVotes = () => {
-    mutation
+    setLoading(true);
+    return mutation
       .mutateAsync({
         votes,
       })
       .then(() => router.push(`/poll/Results?pollID=${pollID}`))
       .catch((err) => console.log(err));
   };
-  return { pollData, answersData, addVote, submitVotes };
+  return { pollData, answersData, addVote, submitVotes, loading };
 };
 export default usePollVote;

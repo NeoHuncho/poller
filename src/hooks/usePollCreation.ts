@@ -15,6 +15,7 @@ export default function usePollCreation() {
     ],
   });
   const [showSettings, setShowSettings] = useState(false);
+  const [loadingCreation, setLoadingCreation] = useState(false);
 
   const updatePollQuestion = (question: string) => {
     setPoll({ ...poll, question });
@@ -38,11 +39,13 @@ export default function usePollCreation() {
     setPoll({ ...poll, answers });
   };
 
-  const createPoll = () =>
-    mutation
+  const createPoll = () => {
+    setLoadingCreation(true);
+    return mutation
       .mutateAsync(poll)
       .then((res) => router.push(`/poll/Results?pollID=${res.id}`))
       .catch((err) => console.log(err));
+  };
 
   return {
     poll,
@@ -53,5 +56,6 @@ export default function usePollCreation() {
     createPoll,
     showSettings,
     setShowSettings,
+    loadingCreation,
   };
 }

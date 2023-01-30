@@ -1,4 +1,4 @@
-import { Button, Progress } from "@mantine/core";
+import { Button, Loader, Progress } from "@mantine/core";
 import { useClipboard } from "@mantine/hooks";
 import useResults from "../../hooks/useResults";
 
@@ -19,18 +19,26 @@ export default function Results() {
       </Button>
       <h1>{pollData?.question}</h1>
       <div className="flex w-full flex-col items-center justify-center gap-5">
-        {answersData?.map((answer) => {
-          return (
-            <div key={answer.id} className="flex w-32 flex-col">
-              <h4 className="m-0 mb-3 text-center">{answer.label}</h4>
-              <Progress
-                color={"secondary"}
-                value={(answer.voteCounter / totalVotes ? totalVotes : 1) * 100}
-              />
-              <p className="m-2 text-center">Vote Count:{answer.voteCounter}</p>
-            </div>
-          );
-        })}
+        {answersData ? (
+          answersData.map((answer) => {
+            return (
+              <div key={answer.id} className="flex w-32 flex-col">
+                <h4 className="m-0 mb-3 text-center">{answer.label}</h4>
+                <Progress
+                  color={"secondary"}
+                  value={
+                    (answer.voteCounter / totalVotes ? totalVotes : 1) * 100
+                  }
+                />
+                <p className="m-2 text-center">
+                  Vote Count:{answer.voteCounter}
+                </p>
+              </div>
+            );
+          })
+        ) : (
+          <Loader color={"primary"} />
+        )}
       </div>
     </div>
   );

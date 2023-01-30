@@ -15,6 +15,7 @@ export default function PollCreationCard() {
     createPoll,
     setShowSettings,
     showSettings,
+    loadingCreation,
   } = usePollCreation();
 
   const onCreatePoll = () => {
@@ -70,6 +71,7 @@ export default function PollCreationCard() {
               Settings
             </Button>
             <Button
+              loading={loadingCreation}
               rightIcon={<CreateIcon size={25} />}
               onClick={onCreatePoll}
               color="primary"
